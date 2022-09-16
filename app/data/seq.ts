@@ -8,9 +8,9 @@ const passwd = process.env.MYSQL_PASSWD || '123456'
 const port = +(process.env.MYSQL_PORT || '3306')
 
 const seq = new Sequelize(database, user, passwd, {
-    host,
-    port,
-    dialect: 'mysql'
+	host,
+	port,
+	dialect: 'mysql',
 })
 
 seq.sync()

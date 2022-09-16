@@ -13,5 +13,5 @@ export const smtpPort = process.env.SMTP_PORT
 export const smtpUser = process.env.SMTP_USER
 export const smtpPassword = process.env.SMTP_PASSWD
 export const smtpSender = process.env.SMTP_SENDER
-export const pinEmailPath = path.join(__dirname, '..', '..', 'pin.ejs')
-export const enableSmtp = process.env.SMTP || false
+export const pinEmailPath = path.join(__dirname, '..', 'view', 'pin.ejs')
+export const enableSmtp = process.env.SMTP_ENABLE || false
