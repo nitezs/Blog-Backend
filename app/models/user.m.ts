@@ -1,6 +1,16 @@
 import { DataTypes } from 'sequelize'
 import seq from '../data/seq'
 
+type userModel = {
+	name: string
+	email: string
+	password: string
+	isAdmin: boolean
+	pin: number
+	certified: boolean
+	pinDate: Date
+}
+
 const User = seq.define('User', {
 	name: {
 		type: DataTypes.STRING,

@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
-import { validationResult, body, ValidationChain } from 'express-validator'
+import {
+	validationResult,
+	body,
+	ValidationChain,
+	query,
+} from 'express-validator'
 import { isBooleanObject } from 'util/types'
 import sendResult from '../constant/sendRes'
 
@@ -16,11 +21,9 @@ export const validator = (
 	}
 }
 
-export const nameValidator = body('name')
-	.notEmpty()
-	.withMessage('不能为空')
-	.isLength({ max: 20 })
-	.withMessage('不符合长度限制(应少于20字符)')
+export const existsValidator = (chain: ValidationChain) => {
+	return chain.exists().withMessage('缺少参数')
+}
 
 // export const nameValidator = async (
 // 	req: Request,
@@ -37,6 +40,12 @@ export const nameValidator = body('name')
 // 		.run(req)
 // 	next()
 // }
+
+export const nameValidator = body('name')
+	.notEmpty()
+	.withMessage('不能为空')
+	.isLength({ max: 20 })
+	.withMessage('不符合长度限制(应少于20字符)')
 
 export const emailValidator = body('email')
 	.notEmpty()
@@ -116,6 +125,14 @@ export const hideValidator = body('hide')
 	.isBoolean()
 	.withMessage('必须为 "true" 或 "false"')
 
-export const existsValidator = (chain: ValidationChain) => {
-	return chain.exists().withMessage('缺少参数')
-}
+export const offsetValidator = query('offset')
+	.notEmpty()
+	.withMessage('不能为空')
+	.isInt()
+	.withMessage('必须为Int')
+
+export const limitValidator = query('limit')
+	.notEmpty()
+	.withMessage('不能为空')
+	.isInt()
+	.withMessage('必须为Int')

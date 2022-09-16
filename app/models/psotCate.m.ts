@@ -3,6 +3,11 @@ import seq from '../data/seq'
 import { Category } from './category.m'
 import Post from './post.m'
 
+type postcateModel = {
+	postId: number
+	categoryId: number
+}
+
 const postCate = seq.define('postCate', {
 	postId: {
 		type: DataTypes.INTEGER,

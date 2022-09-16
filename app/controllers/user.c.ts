@@ -14,10 +14,12 @@ export const createUser = async (req: Request, res: Response) => {
 		password = bcryptjs.hashSync(password, 10)
 		let pin = null
 		let pinDate = null
+
 		if (enableSmtp) {
 			//生成验证码
 			pin = Math.floor(+Math.random().toFixed(6) * 1000000)
 			pinDate = new Date()
+			sendMail(email, '验证码', pinEmailPath, { pin })
 		}
 
 		//添加到数据库同时判断是否已存在 如果之前不存在则created为true
@@ -32,6 +34,7 @@ export const createUser = async (req: Request, res: Response) => {
 				isAdmin: 0,
 				pin,
 				pinDate,
+				certified: enableSmtp ? false : true,
 			},
 		})
 		if (!newCreate) {
@@ -40,10 +43,6 @@ export const createUser = async (req: Request, res: Response) => {
 				name,
 			})
 		} else {
-			if (enableSmtp) {
-				//发送验证码
-				sendMail(email, '验证码', pinEmailPath, { pin })
-			}
 			sendResult.success(res, {
 				email,
 				name,
@@ -70,12 +69,6 @@ export const login = async (req: Request, res: Response) => {
 			const p: string = result.get('password') as string
 			const name = result.get('name')
 			if (await bcryptjs.compare(password, p)) {
-				// if (!enableSmtp) {
-				//     const tokenStr = jwt.sign({ name, email }, jwtSecretKey, { expiresIn: '1w' })
-				//     sendResult.success(res, { email, token: tokenStr })
-				// } else {
-				//     sendResult.success(res, { email })
-				// }
 				const tokenStr = jwt.sign({ name, email }, jwtSecretKey, {
 					expiresIn: '1w',
 				})
@@ -110,7 +103,6 @@ export const verifyPin = async (req: Request, res: Response) => {
 		const pinDate: Date = result.get('pinDate') as Date
 		const currentDate = new Date()
 		const timespan = (currentDate.getTime() - pinDate.getTime()) / 1000 / 60
-		//console.log('验证码时间间隔' + timespan)
 		if (timespan > 60) {
 			return sendResult.pinTimeLimit(res)
 		}
@@ -124,8 +116,6 @@ export const verifyPin = async (req: Request, res: Response) => {
 					},
 				}
 			)
-			// const tokenStr = jwt.sign({ name: result.get('name'), email }, jwtSecretKey, { expiresIn: '1w' })
-			// sendResult.success(res, { email, pin, token: tokenStr })
 			sendResult.success(res, { email, pin })
 		} else {
 			sendResult.wrongPin(res, { email, pin })

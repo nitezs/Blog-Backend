@@ -1,6 +1,12 @@
 import express, { Request } from 'express'
 import { body, oneOf } from 'express-validator'
-import { createPost, deletePost, updatePost } from '../controllers/post.c'
+import {
+	createPost,
+	deletePost,
+	getPost,
+	getPosts,
+	updatePost,
+} from '../controllers/post.c'
 import isAdmin from '../middlewares/isAdmin'
 import jwtAuth from '../middlewares/jwtAuth'
 import {
@@ -15,6 +21,8 @@ import {
 	urlnameValidator,
 	validator,
 	existsValidator,
+	limitValidator,
+	offsetValidator,
 } from '../middlewares/validator'
 const router = express.Router()
 
@@ -56,5 +64,8 @@ router.put(
 	validator,
 	updatePost
 )
+
+router.get('/', existsValidator(urlnameValidator), getPost)
+router.get('/list', limitValidator, offsetValidator, getPosts)
 
 export default router

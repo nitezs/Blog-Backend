@@ -1,6 +1,17 @@
 import { DataTypes } from 'sequelize'
 import seq from '../data/seq'
 
+type postModel = {
+	title: string
+	description: string
+	content: string
+	urlname: string
+	image: string
+	top: number
+	password: string
+	hide: boolean
+}
+
 const Post = seq.define('Post', {
 	title: {
 		type: DataTypes.STRING,
