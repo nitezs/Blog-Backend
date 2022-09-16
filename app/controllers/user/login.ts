@@ -1,48 +1,9 @@
-import { Op } from 'sequelize'
-import User from '../models/user.m'
+import User from '../../models/user.m'
 import bcryptjs from 'bcryptjs'
 import { Request, Response } from 'express'
-import sendResult from '../constant/sendRes'
+import sendResult from '../../constant/sendRes'
 import jwt from 'jsonwebtoken'
-import { jwtSecretKey, pinEmailPath, enableSmtp } from '../constant/config'
-import { sendMail } from '../tools/mailer'
-
-export const createUser = async (req: Request, res: Response) => {
-	let { name, password, email } = req.body
-	try {
-		password = bcryptjs.hashSync(password, 10)
-		let pin = null
-		let pinDate = null
-
-		const [result, newCreate] = await User.findOrCreate({
-			where: {
-				[Op.or]: [{ email }, { name }],
-			},
-			defaults: {
-				name,
-				email,
-				password,
-				isAdmin: 0,
-				pin,
-				pinDate,
-				certified: enableSmtp ? false : true,
-			},
-		})
-		if (!newCreate) {
-			sendResult.nameOrEmailExist(res, {
-				email,
-				name,
-			})
-		} else {
-			sendResult.success(res, {
-				email,
-				name,
-			})
-		}
-	} catch (err) {
-		sendResult.unknowFailed(res, err)
-	}
-}
+import { jwtSecretKey } from '../../constant/config'
 
 export const login = async (req: Request, res: Response) => {
 	let { email, password } = req.body

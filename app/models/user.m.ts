@@ -6,9 +6,6 @@ type userModel = {
 	email: string
 	password: string
 	isAdmin: boolean
-	pin: number
-	certified: boolean
-	pinDate: Date
 }
 
 const User = seq.define('User', {
@@ -30,19 +27,6 @@ const User = seq.define('User', {
 	isAdmin: {
 		type: DataTypes.BOOLEAN,
 		allowNull: false,
-	},
-	pin: {
-		type: DataTypes.INTEGER,
-		allowNull: true,
-	},
-	certified: {
-		type: DataTypes.BOOLEAN,
-		allowNull: false,
-		defaultValue: false,
-	},
-	pinDate: {
-		type: DataTypes.DATE,
-		allowNull: true,
 	},
 })
 

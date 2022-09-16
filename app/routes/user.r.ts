@@ -1,5 +1,6 @@
 import express from 'express'
-import { createUser, login } from '../controllers/user.c'
+import { login } from '../controllers/user/login'
+import { register } from '../controllers/user/register'
 import {
 	validator,
 	nameValidator,
@@ -17,7 +18,7 @@ router.post(
 	existsValidator(emailValidator),
 	existsValidator(passwordValidator),
 	validator,
-	createUser
+	register
 )
 
 //登录

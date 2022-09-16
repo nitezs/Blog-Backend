@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
-import { Op } from 'sequelize'
-import sendResult from '../constant/sendRes'
-import { Category, categoryModel } from '../models/category.m'
+import sendResult from '../../constant/sendRes'
+import { Category } from '../../models/category.m'
 
 export const createCategory = async (req: Request, res: Response) => {
 	let { name, urlname, description, parentId } = req.body
@@ -76,37 +75,4 @@ export const createCategory = async (req: Request, res: Response) => {
 	} catch (err) {
 		sendResult.unknowFailed(res, err)
 	}
-}
-
-export const deleteCategory = async (req: Request, res: Response) => {
-	let { id } = req.body
-	await Category.update(
-		{
-			parentId: null,
-		},
-		{
-			where: {
-				parentId: id,
-			},
-		}
-	)
-	let result = await Category.destroy({
-		where: {
-			id,
-		},
-	})
-	if (result) {
-		sendResult.success(res)
-	} else {
-		sendResult.categoryNotExist(res)
-	}
-}
-
-export const getAllCategories = async (req: Request, res: Response) => {
-	let result = await Category.findAll()
-	let data: categoryModel[] = []
-	result.map((category) => {
-		data.push(category.get())
-	})
-	sendResult.success(res, data)
 }

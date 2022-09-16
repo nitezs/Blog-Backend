@@ -1,18 +1,16 @@
 import express from 'express'
-import {
-	createCategory,
-	deleteCategory,
-	getAllCategories,
-} from '../controllers/category.c'
-import jwtAuth from '../middlewares/jwtAuth'
+import { createCategory } from '../controllers/category/createCategory'
+import { deleteCategory } from '../controllers/category/deleteCategory'
+import { getAllCategories } from '../controllers/category/getAllCategories'
 import isAdmin from '../middlewares/isAdmin'
+import jwtAuth from '../middlewares/jwtAuth'
 import {
-	nameValidator,
-	validator,
-	urlnameValidator,
 	descriptionValidator,
-	parentIdValidator,
 	idValidator,
+	nameValidator,
+	parentIdValidator,
+	urlnameValidator,
+	validator,
 } from '../middlewares/validator'
 const router = express.Router()
 

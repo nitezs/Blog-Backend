@@ -1,28 +1,25 @@
-import express, { Request } from 'express'
-import { body, oneOf } from 'express-validator'
-import {
-	createPost,
-	deletePost,
-	getPost,
-	getPosts,
-	updatePost,
-} from '../controllers/post.c'
+import express from 'express'
+import { createPost } from '../controllers/post/createPost'
+import { deletePost } from '../controllers/post/deletePost'
+import { getPost } from '../controllers/post/getPost'
+import { getPosts } from '../controllers/post/getPosts'
+import { updatePost } from '../controllers/post/updatePost'
 import isAdmin from '../middlewares/isAdmin'
 import jwtAuth from '../middlewares/jwtAuth'
 import {
 	categoryIdValidator,
 	contentValidator,
 	descriptionValidator,
+	existsValidator,
 	idValidator,
 	imageValidator,
+	limitValidator,
+	offsetValidator,
 	passwordValidator,
 	titleValidator,
 	topValidator,
 	urlnameValidator,
 	validator,
-	existsValidator,
-	limitValidator,
-	offsetValidator,
 } from '../middlewares/validator'
 const router = express.Router()
 
@@ -44,19 +41,14 @@ router.post(
 )
 
 //删除文章
-router.delete(
-	'/',
-	oneOf([existsValidator(idValidator), existsValidator(urlnameValidator)]),
-	validator,
-	deletePost
-)
+router.delete('/', existsValidator(idValidator), validator, deletePost)
 
 //修改文章
 router.put(
 	'/',
 	jwtAuth,
 	isAdmin,
-	oneOf([existsValidator(idValidator), existsValidator(urlnameValidator)]),
+	existsValidator(idValidator),
 	categoryIdValidator,
 	imageValidator,
 	topValidator,

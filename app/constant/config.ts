@@ -4,6 +4,7 @@ import path from 'path'
 export const port = process.env.APP_PORT || 3000
 export const mysqlHost = process.env.MYSQL_HOST || '127.0.0.1'
 export const mysqlPort = process.env.MYSQL_PORT || '3306'
+export const mysqlDB = process.env.MYSQL_DB || 'db'
 export const mysqlUser = process.env.MYSQL_USER || 'root'
 export const mysqlPASSWD = process.env.MYSQL_PASSWD || '123456'
 export const jwtSecretKey = process.env.JWT_KEY || '3Hjd%YNRr^*5tc'
