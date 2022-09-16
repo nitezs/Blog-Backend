@@ -81,7 +81,7 @@ export const createPost = async (req: Request, res: Response) => {
 
 //删除文章
 export const deletePost = async (req: Request, res: Response) => {
-	let { id } = req.body
+	let { id, urlname } = req.body
 
 	let result = await Post.destroy({
 		where: {
@@ -139,5 +139,22 @@ export const updatePost = async (req: Request, res: Response) => {
 		return sendResult.postNotExist(res, { id })
 	} else {
 		sendResult.success(res)
+	}
+}
+
+//获取文章
+export const getPosts = async (req: Request, res: Response) => {}
+
+//获取文章内容
+export const getPostContent = async (req: Request, res: Response) => {
+	let { urlname } = req.body
+	let result = await Post.findOne({
+		where: {
+			urlname,
+		},
+	})
+
+	if (!result) {
+		sendResult.postNotExist(res, { urlname })
 	}
 }

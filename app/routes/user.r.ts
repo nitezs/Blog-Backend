@@ -6,31 +6,40 @@ import {
 	emailValidator,
 	passwordValidator,
 	pinValidator,
+	existsValidator as existsValidator,
 } from '../middlewares/validator'
-import jwtAuth from '../middlewares/jwtAuth'
-import { Request } from 'express-jwt'
-import isAdmin from '../middlewares/isAdmin'
 
 const router = express.Router()
 
 //注册
 router.post(
 	'/',
-	nameValidator,
-	emailValidator,
-	passwordValidator,
+	existsValidator(nameValidator),
+	existsValidator(emailValidator),
+	existsValidator(passwordValidator),
 	validator,
 	createUser
 )
 
 //注册验证
-router.post('/verify', pinValidator, emailValidator, validator, verifyPin)
+router.post(
+	'/verify',
+	existsValidator(pinValidator),
+	existsValidator(emailValidator),
+	validator,
+	verifyPin
+)
 
 //重新发送验证码
-router.post('/sendPin', emailValidator, validator, sendPin)
+router.post('/sendPin', existsValidator(emailValidator), validator, sendPin)
 
 //登录
-router.post('/login', emailValidator, passwordValidator, login)
+router.post(
+	'/login',
+	existsValidator(emailValidator),
+	existsValidator(passwordValidator),
+	login
+)
 
 //更新密码
 
