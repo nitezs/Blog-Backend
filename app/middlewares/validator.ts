@@ -115,10 +115,6 @@ export const topValidator = body('top')
 	.isInt()
 	.withMessage('必须为Int')
 
-export const postPasswordValidator = body('password')
-	.notEmpty()
-	.withMessage('不能为空')
-
 export const hideValidator = body('hide')
 	.notEmpty()
 	.withMessage('不能为空')

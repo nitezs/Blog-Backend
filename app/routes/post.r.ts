@@ -15,7 +15,7 @@ import {
 	descriptionValidator,
 	idValidator,
 	imageValidator,
-	postPasswordValidator,
+	passwordValidator,
 	titleValidator,
 	topValidator,
 	urlnameValidator,
@@ -38,7 +38,7 @@ router.post(
 	categoryIdValidator,
 	imageValidator,
 	topValidator,
-	postPasswordValidator,
+	passwordValidator,
 	validator,
 	createPost
 )
@@ -60,12 +60,15 @@ router.put(
 	categoryIdValidator,
 	imageValidator,
 	topValidator,
-	postPasswordValidator,
+	passwordValidator,
 	validator,
 	updatePost
 )
 
+//获取单个文章
 router.get('/', existsValidator(urlnameValidator), getPost)
+
+//获取文章列表
 router.get('/list', limitValidator, offsetValidator, getPosts)
 
 export default router

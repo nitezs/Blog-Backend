@@ -1,11 +1,10 @@
 import express from 'express'
-import { createUser, login, sendPin, verifyPin } from '../controllers/user.c'
+import { createUser, login } from '../controllers/user.c'
 import {
 	validator,
 	nameValidator,
 	emailValidator,
 	passwordValidator,
-	pinValidator,
 	existsValidator as existsValidator,
 } from '../middlewares/validator'
 
@@ -20,18 +19,6 @@ router.post(
 	validator,
 	createUser
 )
-
-//注册验证
-router.post(
-	'/verify',
-	existsValidator(pinValidator),
-	existsValidator(emailValidator),
-	validator,
-	verifyPin
-)
-
-//重新发送验证码
-router.post('/sendPin', existsValidator(emailValidator), validator, sendPin)
 
 //登录
 router.post(

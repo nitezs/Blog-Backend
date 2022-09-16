@@ -34,4 +34,6 @@ router.get('/all', getAllCategories)
 //删除分类
 router.delete('/', jwtAuth, isAdmin, idValidator, validator, deleteCategory)
 
+//TODO:修改分类
+
 export default router
