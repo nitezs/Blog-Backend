@@ -151,6 +151,14 @@ class sendResult {
 			data,
 		})
 	}
+
+	static postNotExist(res: Response, data?: any): void {
+		res.status(200).send({
+			code: 1019,
+			message: '文章不存在',
+			data,
+		})
+	}
 }
 
 export default sendResult

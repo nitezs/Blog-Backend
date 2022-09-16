@@ -80,6 +80,21 @@ export const urlnameValidator = async (
 	next()
 }
 
+export const urlnameOptionalValidator = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	await body('urlname')
+		.optional()
+		.notEmpty()
+		.withMessage('不能为空')
+		.isLength({ max: 50 })
+		.withMessage('不符合长度限制(应少于50字符)')
+		.run(req)
+	next()
+}
+
 export const descriptionValidator = async (
 	req: Request,
 	res: Response,
@@ -88,6 +103,21 @@ export const descriptionValidator = async (
 	await body('description')
 		.exists()
 		.withMessage('缺少参数')
+		.notEmpty()
+		.withMessage('不能为空')
+		.isLength({ max: 255 })
+		.withMessage('不符合长度限制(应少于255字符)')
+		.run(req)
+	next()
+}
+
+export const descriptionOptionalValidator = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	await body('description')
+		.optional()
 		.notEmpty()
 		.withMessage('不能为空')
 		.isLength({ max: 255 })
@@ -145,6 +175,22 @@ export const titleValidator = async (
 	next: NextFunction
 ) => {
 	await body('title')
+		.exists()
+		.notEmpty()
+		.withMessage('不能为空')
+		.isLength({ max: 255 })
+		.withMessage('不符合长度限制(应少于255字符)')
+		.run(req)
+	next()
+}
+
+export const titleOptionalValidator = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	await body('title')
+		.optional()
 		.notEmpty()
 		.withMessage('不能为空')
 		.isLength({ max: 255 })
@@ -159,6 +205,22 @@ export const contentValidator = async (
 	next: NextFunction
 ) => {
 	await body('content')
+		.exists()
+		.notEmpty()
+		.withMessage('不能为空')
+		.isLength({ max: 65535 })
+		.withMessage('不符合长度限制(应少于65535字符)')
+		.run(req)
+	next()
+}
+
+export const contentOptionalValidator = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	await body('content')
+		.optional()
 		.notEmpty()
 		.withMessage('不能为空')
 		.isLength({ max: 65535 })
@@ -173,6 +235,7 @@ export const categoryIdValidator = async (
 	next: NextFunction
 ) => {
 	await body('categoryId')
+		.optional()
 		.notEmpty()
 		.withMessage('不能为空')
 		.isInt()
