@@ -3,7 +3,7 @@ import sendResult from '../../constant/sendRes'
 import Post from '../../models/post.m'
 
 export const getPost = async (req: Request, res: Response) => {
-	let { id } = req.query
+	let { id } = req.params
 	let result = await Post.findOne({
 		where: {
 			id,

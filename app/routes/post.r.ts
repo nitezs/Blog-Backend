@@ -1,4 +1,5 @@
 import express from 'express'
+import { oneOf } from 'express-validator'
 import { createPost } from '../controllers/post/createPost'
 import { deletePost } from '../controllers/post/deletePost'
 import { getPost } from '../controllers/post/getPost'
@@ -10,7 +11,6 @@ import {
 	categoryIdValidator,
 	contentValidator,
 	descriptionValidator,
-	existsValidator,
 	idValidator,
 	imageValidator,
 	limitValidator,
@@ -28,39 +28,49 @@ router.post(
 	'/',
 	jwtAuth,
 	isAdmin,
-	existsValidator(titleValidator),
-	existsValidator(urlnameValidator),
-	existsValidator(descriptionValidator),
-	existsValidator(contentValidator),
-	categoryIdValidator,
-	imageValidator,
-	topValidator,
-	passwordValidator,
+	titleValidator(),
+	urlnameValidator(),
+	descriptionValidator(),
+	contentValidator(),
+	categoryIdValidator().optional(),
+	imageValidator().optional(),
+	topValidator().optional(),
+	passwordValidator().optional(),
 	validator,
 	createPost
 )
 
 //删除文章
-router.delete('/', existsValidator(idValidator), validator, deletePost)
+router.delete('/:id', idValidator(), validator, deletePost)
 
 //修改文章
 router.put(
-	'/',
+	'/:id',
 	jwtAuth,
 	isAdmin,
-	existsValidator(idValidator),
-	categoryIdValidator,
-	imageValidator,
-	topValidator,
-	passwordValidator,
+	idValidator(),
+	oneOf(
+		[
+			categoryIdValidator(),
+			imageValidator(),
+			topValidator(),
+			passwordValidator(),
+		],
+		'缺少参数'
+	),
 	validator,
 	updatePost
 )
 
 //获取单个文章
-router.get('/', existsValidator(urlnameValidator), getPost)
+router.get('/:id', idValidator(), getPost)
 
 //获取文章列表
-router.get('/list', limitValidator, offsetValidator, getPosts)
+router.get(
+	'/list',
+	limitValidator().optional(),
+	offsetValidator().optional(),
+	getPosts
+)
 
 export default router

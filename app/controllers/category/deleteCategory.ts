@@ -3,7 +3,7 @@ import sendResult from '../../constant/sendRes'
 import { Category } from '../../models/category.m'
 
 export const deleteCategory = async (req: Request, res: Response) => {
-	let { id } = req.body
+	let { id } = req.params
 	await Category.update(
 		{
 			parentId: null,

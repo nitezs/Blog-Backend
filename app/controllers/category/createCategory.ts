@@ -3,7 +3,7 @@ import sendResult from '../../constant/sendRes'
 import { Category } from '../../models/category.m'
 
 export const createCategory = async (req: Request, res: Response) => {
-	let { name, urlname, description, parentId } = req.body
+	let { name, urlname, parentId } = req.body
 	try {
 		//判断urlname是否存在
 		let result = await Category.findOne({
@@ -24,10 +24,9 @@ export const createCategory = async (req: Request, res: Response) => {
 				},
 			})
 			if (!result) {
-				return sendResult.parentCategoryExist(res, {
+				return sendResult.parentCategoryNotExist(res, {
 					name,
 					urlname,
-					description,
 					parentId,
 				})
 			}
@@ -43,7 +42,6 @@ export const createCategory = async (req: Request, res: Response) => {
 				defaults: {
 					name,
 					urlname,
-					description,
 					parentId,
 				},
 			})
@@ -55,7 +53,6 @@ export const createCategory = async (req: Request, res: Response) => {
 				defaults: {
 					name,
 					urlname,
-					description,
 				},
 			})
 		}
@@ -63,13 +60,11 @@ export const createCategory = async (req: Request, res: Response) => {
 			sendResult.nameOrEmailExist(res, {
 				name,
 				urlname,
-				description,
 			})
 		} else {
 			sendResult.success(res, {
 				name,
 				urlname,
-				description,
 			})
 		}
 	} catch (err) {

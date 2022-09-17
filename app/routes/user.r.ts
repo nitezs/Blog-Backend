@@ -6,7 +6,6 @@ import {
 	nameValidator,
 	emailValidator,
 	passwordValidator,
-	existsValidator as existsValidator,
 } from '../middlewares/validator'
 
 const router = express.Router()
@@ -14,20 +13,15 @@ const router = express.Router()
 //注册
 router.post(
 	'/',
-	existsValidator(nameValidator),
-	existsValidator(emailValidator),
-	existsValidator(passwordValidator),
+	nameValidator(),
+	emailValidator(),
+	passwordValidator(),
 	validator,
 	register
 )
 
 //登录
-router.post(
-	'/login',
-	existsValidator(emailValidator),
-	existsValidator(passwordValidator),
-	login
-)
+router.post('/login', emailValidator(), passwordValidator(), login)
 
 //更新密码
 

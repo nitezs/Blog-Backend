@@ -5,7 +5,7 @@ import postCate from '../../models/psotCate.m'
 import { Op } from 'sequelize'
 
 export const deletePost = async (req: Request, res: Response) => {
-	let { id } = req.body
+	let { id } = req.params
 
 	let result = await Post.destroy({
 		where: {

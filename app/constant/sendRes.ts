@@ -88,7 +88,7 @@ class sendResult {
 		})
 	}
 
-	static parentCategoryExist(res: Response, data?: any): void {
+	static parentCategoryNotExist(res: Response, data?: any): void {
 		res.status(200).send({
 			code: 1011,
 			message: '父分类不存在',
